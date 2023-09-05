@@ -2,6 +2,7 @@ defmodule FlyWeb.InvoiceController do
   use FlyWeb, :controller
 
   alias Fly.Billing
+  alias Fly.Organizations
   alias Fly.Billing.Invoice
 
   action_fallback FlyWeb.FallbackController
@@ -11,7 +12,9 @@ defmodule FlyWeb.InvoiceController do
     render(conn, :index, invoices: invoices)
   end
 
-  def create(conn, %{"invoice" => invoice_params, "organization" => org}) do
+  def create(conn, %{"invoice" => invoice_params, "organization" => organization_id}) do
+    org = Organizations.get_organization!(organization_id)
+
     with {:ok, %Invoice{} = invoice} <- Billing.create_invoice(org, invoice_params) do
       conn
       |> put_status(:created)

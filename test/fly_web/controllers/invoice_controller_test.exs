@@ -32,10 +32,12 @@ defmodule FlyWeb.InvoiceControllerTest do
   end
 
   describe "create invoice" do
+    setup [:create_organization]
 
-    test "renders invoice when data is valid", %{conn: conn} do
-      org_input = organization_fixture()
-      conn = post(conn, ~p"/api/invoices", invoice: @create_attrs, organization: org_input)
+    test "renders invoice when data is valid", %{conn: conn, org: org} do
+      organization_id = org.id
+
+      conn = post(conn, ~p"/api/invoices", invoice: @create_attrs, organization: organization_id)
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
       conn = get(conn, ~p"/api/invoices/#{id}")
@@ -45,9 +47,10 @@ defmodule FlyWeb.InvoiceControllerTest do
              } = json_response(conn, 200)["data"]
     end
 
-    test "renders errors when data is invalid", %{conn: conn} do
-      org_input = organization_fixture()
-      conn = post(conn, ~p"/api/invoices", invoice: @invalid_attrs, organization: org_input)
+    test "renders errors when data is invalid", %{conn: conn, org: org} do
+      organization_id = org.id
+
+      conn = post(conn, ~p"/api/invoices", invoice: @invalid_attrs, organization: organization_id)
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -85,5 +88,11 @@ defmodule FlyWeb.InvoiceControllerTest do
 
     invoice = invoice_fixture(org)
     %{invoice: invoice}
+  end
+
+  defp create_organization(_) do
+    org = organization_fixture()
+
+    %{org: org}
   end
 end
