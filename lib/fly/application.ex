@@ -12,6 +12,8 @@ defmodule Fly.Application do
       FlyWeb.Telemetry,
       # Start the Ecto repository
       Fly.Repo,
+      # Start Oban
+      {Oban, Application.get_env(:fly, Oban)},
       # Start the PubSub system
       {Phoenix.PubSub, name: Fly.PubSub},
       # Start Finch
