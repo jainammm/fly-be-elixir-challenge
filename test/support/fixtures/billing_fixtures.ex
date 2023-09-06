@@ -5,7 +5,7 @@ defmodule Fly.BillingFixtures do
   """
 
   @doc """
-  Generate a invoice.
+  Generate an invoice.
   """
   def invoice_fixture(organization, attrs \\ %{}) do
     attrs = attrs
@@ -18,5 +18,20 @@ defmodule Fly.BillingFixtures do
     {:ok, invoice} = Fly.Billing.create_invoice(organization, attrs)
 
     invoice
+  end
+
+  @doc """
+  Generate an invoice item.
+  """
+  def invoice_item_fixture(invoice, attrs \\ %{}) do
+    attrs = attrs
+            |> Enum.into(%{
+              amount: 1200,
+              description: "VM usage",
+            })
+
+    {:ok, invoice_item} = Fly.Billing.create_invoice_item(invoice, attrs)
+
+    invoice_item
   end
 end

@@ -120,6 +120,27 @@ defmodule Fly.Billing do
   end
 
   @doc """
+  Gets a single invoice item.
+
+  Raises `Ecto.NoResultsError` if the Invoice Item does not exist.
+
+  ## Examples
+
+      iex> get_invoice_item!(123)
+      %InvoiceItem{}
+
+      iex> get_invoice_item!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_invoice_item!(id, opts \\ []) do
+    preload = Keyword.get(opts, :preload, [])
+
+    from(i in InvoiceItem, preload: ^preload)
+    |> Repo.get!(id)
+  end
+
+  @doc """
   Add Invoice Item to Invoice
   """
   def create_invoice_item(%Invoice{} = invoice, attrs) do
