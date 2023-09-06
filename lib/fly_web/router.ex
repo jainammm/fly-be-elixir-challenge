@@ -25,6 +25,7 @@ defmodule FlyWeb.Router do
     pipe_through :api
 
     resources "/invoices", InvoiceController, except: [:new, :edit]
+    resources "/organizations", OrganizationController, except: [:new, :edit]
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
