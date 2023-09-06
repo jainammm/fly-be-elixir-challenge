@@ -2,11 +2,11 @@
 GET http://localhost:4000/api/organizations/
 
 ###
-# Get data based on a particular invoice
+# Get data based on a particular organization
 GET http://localhost:4000/api/organizations/1
 
 ###
-# Create an Invoice
+# Create an organization
 POST http://localhost:4000/api/organizations/
 Content-Type: application/json
 
@@ -16,7 +16,7 @@ Content-Type: application/json
 }}
 
 ###
-# Update an Invoice
+# Update an organization
 PUT  http://localhost:4000/api/organizations/2
 Content-Type: application/json
 
@@ -25,5 +25,5 @@ Content-Type: application/json
 }}
 
 ###
-# Delete an Invoice
+# Delete an organization
 DELETE   http://localhost:4000/api/organizations/2
