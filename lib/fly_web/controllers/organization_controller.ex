@@ -40,4 +40,9 @@ defmodule FlyWeb.OrganizationController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  def get_invoices(conn, %{"id" => id}) do
+    invoices = Organizations.get_invoices_by_organization(id)
+    render(conn, :index, invoices: invoices)
+  end
 end

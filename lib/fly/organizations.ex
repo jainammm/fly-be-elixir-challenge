@@ -9,6 +9,7 @@ defmodule Fly.Organizations do
   """
 
   import Ecto.Query, warn: false
+  alias Fly.Billing.Invoice
   alias Fly.Repo
 
   alias Fly.Organizations.Organization
@@ -105,5 +106,10 @@ defmodule Fly.Organizations do
   """
   def change_organization(%Organization{} = organization, attrs \\ %{}) do
     Organization.changeset(organization, attrs)
+  end
+
+  def get_invoices_by_organization(organization_id) do
+    from(i in Invoice ,where: i.organization_id == ^organization_id)
+    |> Repo.all()
   end
 end

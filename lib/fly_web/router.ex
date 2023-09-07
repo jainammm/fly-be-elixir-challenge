@@ -29,6 +29,8 @@ defmodule FlyWeb.Router do
     resources "/organizations", OrganizationController, except: [:new, :edit]
 
     get("/invoices/:id/invoice_items", InvoiceController, :get_invoice_items)
+
+    get("/organizations/:id/invoices", OrganizationController, :get_invoices)
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

@@ -1,4 +1,5 @@
 defmodule FlyWeb.OrganizationJSON do
+  alias Fly.Billing.Invoice
   alias Fly.Organizations.Organization
 
   @doc """
@@ -6,6 +7,10 @@ defmodule FlyWeb.OrganizationJSON do
   """
   def index(%{organizations: organizations}) do
     %{data: for(organization <- organizations, do: data(organization))}
+  end
+
+  def index(%{invoices: invoices}) do
+    %{data: for(invoices <- invoices, do: data(invoices))}
   end
 
   @doc """
@@ -18,6 +23,12 @@ defmodule FlyWeb.OrganizationJSON do
   defp data(%Organization{} = organization) do
     %{
       id: organization.id
+    }
+  end
+
+  defp data(%Invoice{} = invoice) do
+    %{
+      id: invoice.id
     }
   end
 end
