@@ -1,5 +1,5 @@
 defmodule Fly.Workers.StripeWorker do
-  @max_attempts 3
+  @max_attempts Application.compile_env!(:fly, :max_attemps_sync_invoice_item)
 
   require Logger
   use Oban.Worker, queue: :sync_invoice_item, max_attempts: @max_attempts
