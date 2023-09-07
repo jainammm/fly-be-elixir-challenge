@@ -2,6 +2,10 @@
 GET http://localhost:4000/api/organizations/
 
 ###
+# Get all Invoice Items for a particular Invoice
+GET http://localhost:4000/api/organizations/1/invoices
+
+###
 # Get data based on a particular organization
 GET http://localhost:4000/api/organizations/1
 

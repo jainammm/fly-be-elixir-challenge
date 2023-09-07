@@ -2,6 +2,10 @@
 GET http://localhost:4000/api/invoices/
 
 ###
+# Get all Invoice Items for a particular Invoice
+GET http://localhost:4000/api/invoices/1/invoice_items
+
+###
 # Get data based on a particular invoice
 GET http://localhost:4000/api/invoices/1
 
