@@ -108,6 +108,9 @@ defmodule Fly.Organizations do
     Organization.changeset(organization, attrs)
   end
 
+  @doc """
+  Gets all Invoices for a particular Organization.
+  """
   def get_invoices_by_organization(organization_id) do
     from(i in Invoice ,where: i.organization_id == ^organization_id)
     |> Repo.all()

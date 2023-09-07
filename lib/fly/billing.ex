@@ -148,6 +148,9 @@ defmodule Fly.Billing do
     |> Repo.insert()
   end
 
+  @doc """
+  Gets all InvoiceItems for a particular Invoice.
+  """
   def get_invoice_items_by_invoice(invoice_id) do
     from(i in InvoiceItem ,where: i.invoice_id == ^invoice_id)
     |> Repo.all()

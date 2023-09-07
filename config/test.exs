@@ -32,4 +32,5 @@ config :logger, level: :warning
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
 
+# Initialize config for Oban in testing, inline will run jobs synchronously instead of background
 config :fly, Oban, testing: :inline

@@ -44,6 +44,12 @@ defmodule FlyWeb.InvoiceController do
     end
   end
 
+  @doc """
+  Gets all Invoice Items linked to an Invoice.
+
+  ### Route
+  <host>/api/invoices/:id/invoice_items
+  """
   def get_invoice_items(conn, %{"id" => id}) do
     invoice_items = Billing.get_invoice_items_by_invoice(id)
     render(conn, :index, invoice_items: invoice_items)
