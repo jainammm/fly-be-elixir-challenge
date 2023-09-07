@@ -29,4 +29,11 @@ defmodule Fly.Billing.InvoiceItem do
     |> validate_required(@required)
     |> Ecto.Changeset.put_assoc(:invoice, invoice)
   end
+
+  @doc false
+  def changeset(invoice_item, attrs) do
+    invoice_item
+    |> cast(attrs, @cast)
+    |> validate_required(@required)
+  end
 end

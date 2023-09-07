@@ -25,7 +25,7 @@ defmodule FlyWeb.Router do
     pipe_through :api
 
     resources "/invoices", InvoiceController, except: [:new, :edit]
-    resources "/invoice_items", InvoiceItemController, except: [:new, :index, :edit, :update, :delete]
+    resources "/invoice_items", InvoiceItemController, except: [:new, :index, :edit]
     resources "/organizations", OrganizationController, except: [:new, :edit]
 
     get("/invoices/:id/invoice_items", InvoiceController, :get_invoice_items)

@@ -7,11 +7,6 @@ defmodule FlyWeb.InvoiceItemController do
 
   action_fallback FlyWeb.FallbackController
 
-  # def index(conn, _params) do
-  #   invoice_items = Billing.list_invoice_items()
-  #   render(conn, :index, invoice_items: invoice_items)
-  # end
-
   @doc """
   Creates a new Invoice Item. Pushes job for Oban to sync new Invoice Item with Stripe.
 
@@ -52,19 +47,19 @@ defmodule FlyWeb.InvoiceItemController do
     render(conn, :show, invoice_item: invoice_item)
   end
 
-  # def update(conn, %{"id" => id, "invoice_item" => invoice_item_params}) do
-  #   invoice_item = Billing.get_invoice_item!(id)
+  def update(conn, %{"id" => id, "invoice_item" => invoice_item_params}) do
+    invoice_item = Billing.get_invoice_item!(id)
 
-  #   with {:ok, %InvoiceItem{} = invoice_item} <- Billing.update_invoice_item(invoice_item, invoice_item_params) do
-  #     render(conn, :show, invoice_item: invoice_item)
-  #   end
-  # end
+    with {:ok, %InvoiceItem{} = invoice_item} <- Billing.update_invoice_item(invoice_item, invoice_item_params) do
+      render(conn, :show, invoice_item: invoice_item)
+    end
+  end
 
-  # def delete(conn, %{"id" => id}) do
-  #   invoice_item = Billing.get_invoice_item!(id)
+  def delete(conn, %{"id" => id}) do
+    invoice_item = Billing.get_invoice_item!(id)
 
-  #   with {:ok, %InvoiceItem{}} <- Billing.delete_invoice_item(invoice_item) do
-  #     send_resp(conn, :no_content, "")
-  #   end
-  # end
+    with {:ok, %InvoiceItem{}} <- Billing.delete_invoice_item(invoice_item) do
+      send_resp(conn, :no_content, "")
+    end
+  end
 end

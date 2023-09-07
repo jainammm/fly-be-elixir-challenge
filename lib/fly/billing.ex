@@ -149,6 +149,40 @@ defmodule Fly.Billing do
   end
 
   @doc """
+  Updates a invoice_item.
+
+  ## Examples
+
+      iex> update_invoice_item(invoice_item, %{field: new_value})
+      {:ok, %InvoiceItem{}}
+
+      iex> update_invoice_item(invoice_item, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_invoice_item(%InvoiceItem{} = invoice_item, attrs) do
+    invoice_item
+    |> InvoiceItem.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a invoice_item.
+
+  ## Examples
+
+      iex> delete_invoice_item(invoice_item)
+      {:ok, %InvoiceItem{}}
+
+      iex> delete_invoice_item(invoice_item)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_invoice_item(%InvoiceItem{} = invoice_item) do
+    Repo.delete(invoice_item)
+  end
+
+  @doc """
   Gets all InvoiceItems for a particular Invoice.
   """
   def get_invoice_items_by_invoice(invoice_id) do

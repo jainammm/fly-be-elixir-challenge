@@ -10,3 +10,17 @@ Content-Type: application/json
   "amount": 2600,
   "description": "API Test Invoice Item"
 }, "invoice": 1}
+
+###
+# Update an Invoice Item
+PUT  http://localhost:4000/api/invoice_items/2
+Content-Type: application/json
+
+{"invoice_item": {
+  "amount": 500,
+  "description": "Updated Invoice Description"
+}}
+
+###
+# Delete an Invoice Item
+DELETE   http://localhost:4000/api/invoice_items/2
