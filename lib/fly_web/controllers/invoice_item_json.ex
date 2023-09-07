@@ -17,7 +17,10 @@ defmodule FlyWeb.InvoiceItemJSON do
 
   defp data(%InvoiceItem{} = invoice_item) do
     %{
-      id: invoice_item.id
+      id: invoice_item.id,
+      description: invoice_item. description,
+      amount: invoice_item. amount,
+      invoice_id: invoice_item. invoice_id
     }
   end
 end

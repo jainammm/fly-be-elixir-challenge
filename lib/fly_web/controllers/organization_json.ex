@@ -22,7 +22,9 @@ defmodule FlyWeb.OrganizationJSON do
 
   defp data(%Organization{} = organization) do
     %{
-      id: organization.id
+      id: organization.id,
+      name: organization.name,
+      stripe_customer_id: organization.stripe_customer_id
     }
   end
 
