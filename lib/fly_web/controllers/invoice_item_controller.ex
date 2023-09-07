@@ -13,15 +13,14 @@ defmodule FlyWeb.InvoiceItemController do
   # end
 
   def create(conn, %{"invoice_item" => invoice_item_params, "invoice" => invoice_id}) do
-    length = Enum.random(4_000..8_000)
-
-    %{length: length}
-    |> StripeWorker.new()
-    |> Oban.insert()
-
     invoice = Billing.get_invoice!(invoice_id)
 
     with {:ok, %InvoiceItem{} = invoice_item} <- Billing.create_invoice_item(invoice, invoice_item_params) do
+      invoice_item_id = invoice_item.id
+      %{invoice_item_id: invoice_item_id}
+      |> StripeWorker.new()
+      |> Oban.insert()
+
       conn
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/invoice_items/#{invoice_item}")
