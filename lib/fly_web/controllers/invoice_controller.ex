@@ -43,4 +43,9 @@ defmodule FlyWeb.InvoiceController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  def get_invoice_items(conn, %{"id" => id}) do
+    invoice_items = Billing.get_invoice_items_by_invoice(id)
+    render(conn, :index, invoice_items: invoice_items)
+  end
 end

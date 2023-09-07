@@ -147,4 +147,9 @@ defmodule Fly.Billing do
     InvoiceItem.invoice_changeset(invoice, %InvoiceItem{}, attrs)
     |> Repo.insert()
   end
+
+  def get_invoice_items_by_invoice(invoice_id) do
+    from(i in InvoiceItem ,where: i.invoice_id == ^invoice_id)
+    |> Repo.all()
+  end
 end

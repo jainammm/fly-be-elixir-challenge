@@ -1,4 +1,5 @@
 defmodule FlyWeb.InvoiceJSON do
+  alias Fly.Billing.InvoiceItem
   alias Fly.Billing.Invoice
 
   @doc """
@@ -6,6 +7,10 @@ defmodule FlyWeb.InvoiceJSON do
   """
   def index(%{invoices: invoices}) do
     %{data: for(invoice <- invoices, do: data(invoice))}
+  end
+
+  def index(%{invoice_items: invoice_items}) do
+    %{data: for(invoice_items <- invoice_items, do: data(invoice_items))}
   end
 
   @doc """
@@ -18,6 +23,12 @@ defmodule FlyWeb.InvoiceJSON do
   defp data(%Invoice{} = invoice) do
     %{
       id: invoice.id
+    }
+  end
+
+  defp data(%InvoiceItem{} = invoice_item) do
+    %{
+      id: invoice_item.id
     }
   end
 end
