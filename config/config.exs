@@ -64,8 +64,18 @@ config :fly, Oban,
   plugins: [Oban.Plugins.Pruner],
   queues: [default: 2, sync_invoice_item: 2]    # maximum number of concurrent jobs for each event
 
+# SmartEngine enables truly global concurrency and global rate limiting
+# This is a Oban Pro feature.
+# ### Docs: https://hexdocs.pm/oban/2.11.0/smart_engine.html
+# ### Example config would look like:
+#   queues: [
+#     default: 2,
+#     sync_invoice_item: [local_limit: 2, global_limit: 10, rate_limit: [allowed: 500, period: {1, :hour}]
+#   ]
+
 config :fly,
-  max_attemps_sync_invoice_item: 3              # maximum retries for job
+  max_attemps_sync_invoice_item: 3,              # maximum retries for job
+  max_execution_time_sync_invoice_item: 5       # maximum time in seconds for job
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

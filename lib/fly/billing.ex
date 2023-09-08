@@ -12,6 +12,7 @@ defmodule Fly.Billing do
   alias Fly.Billing.Invoice
   alias Fly.Billing.InvoiceItem
   alias Fly.Organizations.Organization
+  alias Fly.Workers.StripeWorker
 
   defmodule BillingError do
     defexception message: "billing error"
@@ -146,6 +147,32 @@ defmodule Fly.Billing do
   def create_invoice_item(%Invoice{} = invoice, attrs) do
     InvoiceItem.invoice_changeset(invoice, %InvoiceItem{}, attrs)
     |> Repo.insert()
+  end
+
+  @doc """
+  Add Stripe Worker Job in Oban.
+  """
+  def insert_stripe_worker_job(invoice_item_id) do
+    %{invoice_item_id: invoice_item_id}
+    |> StripeWorker.new()
+    |> Oban.insert()
+  end
+
+  @doc """
+  Create Invoice Item and insert Stripe Worker Oban Job in a single database transaction.
+  """
+  def create_invoice_item_transaction(%Invoice{} = invoice, attrs) do
+    Repo.transaction(fn->
+      case create_invoice_item(invoice, attrs) do
+        {:ok, invoice_item} ->
+          case insert_stripe_worker_job(invoice_item.id) do
+            {:ok, _} -> {invoice_item}
+            {:error, error} -> Repo.rollback(error)
+          end
+          invoice_item
+        {:error, error} -> Repo.rollback(error)
+      end
+    end)
   end
 
   @doc """

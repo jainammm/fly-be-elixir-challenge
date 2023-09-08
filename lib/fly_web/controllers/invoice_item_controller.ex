@@ -3,14 +3,13 @@ defmodule FlyWeb.InvoiceItemController do
 
   alias Fly.Billing
   alias Fly.Billing.InvoiceItem
-  alias Fly.Workers.StripeWorker
 
   action_fallback FlyWeb.FallbackController
 
   @doc """
   Creates a new Invoice Item. Pushes job for Oban to sync new Invoice Item with Stripe.
 
-  ## Example
+  ## Example using `iex -S mix phx.server`
 
       iex(1)> conn = Phoenix.ConnTest.build_conn() |>
       ...(1)> Phoenix.Controller.put_view(FlyWeb.InvoiceItemJSON) |>
@@ -28,13 +27,8 @@ defmodule FlyWeb.InvoiceItemController do
   def create(conn, %{"invoice_item" => invoice_item_params, "invoice" => invoice_id}) do
     invoice = Billing.get_invoice!(invoice_id)
 
-    with {:ok, %InvoiceItem{} = invoice_item} <- Billing.create_invoice_item(invoice, invoice_item_params) do
-      # Push New Invoice Item ID to Oban for background sync to Stripe
-      invoice_item_id = invoice_item.id
-      %{invoice_item_id: invoice_item_id}
-      |> StripeWorker.new()
-      |> Oban.insert()
-
+    # Create New Invoice Item and push Stripe Worker job in Oban for background processing
+    with {:ok, %InvoiceItem{} = invoice_item} <- Billing.create_invoice_item_transaction(invoice, invoice_item_params) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/invoice_items/#{invoice_item}")
